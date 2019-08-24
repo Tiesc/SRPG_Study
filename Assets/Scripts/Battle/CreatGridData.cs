@@ -65,7 +65,7 @@ namespace ELGame
                 Debug.Log("设置的障碍太多了！！！！");
                 return;
             }
-            //todo   编写这里
+            //todo   编写这里编写计算障碍物的间距数量
             Double numScale = num / (_Row * _Colum);
         }
 
