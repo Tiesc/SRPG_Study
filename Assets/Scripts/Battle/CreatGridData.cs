@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ELGame
 {
@@ -10,7 +12,7 @@ namespace ELGame
         private float innerRadius = 1.41f;
         public int _Row;
         public int _Colum;
-        public int _Obstruct;
+        public Vector3[] _Obstruct;
         private GameObject gameObject;
 
         /*
@@ -58,15 +60,28 @@ namespace ELGame
         /*
          * @function 创建地图中的障碍物
          */
-        public void CreateObstacle(int num)
+        public void CreateObstacle(int num, int space)
         {
-            if (!(num < _Row * _Colum))
+            int numObstacle = 0;
+            numObstacle = (int) (num / 100.0 * (_Row * _Colum));
+            Vector3[] _Obstruct = new Vector3[numObstacle];
+            for (int i = 0, lenI = numObstacle; i < lenI; i++)
             {
-                Debug.Log("设置的障碍太多了！！！！");
-                return;
+                int posX = Random.Range(0, _Row);
+                int posY = Random.Range(0, _Colum);
+                Vector3 tmpPos = new Vector3(posX, posY, -posX - posY);
+                //todo  编写创建一个Vector3的模版类,这样才能查找对比数组中是否存在Vector3
+//                    if(_Obstruct.IndexOf(tmpPos))
+                _Obstruct[i] = tmpPos;
+//                Debug.Log("这是啥玩也！！！" + tmpPos);
             }
+
+            foreach (Vector3 pos in _Obstruct)
+            {
+                Debug.Log("这个数组中都是写什么？？？:::" + pos);
+            }
+
             //todo   编写这里编写计算障碍物的间距数量
-            Double numScale = num / (_Row * _Colum);
         }
 
         public Vector3 CalcGridPos(int idxR, int idxC)
@@ -74,6 +89,12 @@ namespace ELGame
             Vector3 tmp = new Vector3(0, 0, 0);
 
             return tmp;
+        }
+
+        public bool isOkToPush(Vector3 posA, Vector3 posB, int obs)
+        {
+            return posA != posB && Math.Abs(posA.x - posB.x) <= obs && Math.Abs(posA.y - posB.y) <= obs &&
+                   Math.Abs(posA.z - posB.z) <= obs;
         }
     }
 }

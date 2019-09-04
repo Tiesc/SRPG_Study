@@ -8,7 +8,7 @@ namespace ELGame
         {
             CreatGridData CreateMap = new CreatGridData();
             CreateMap.CreateData(10, 10, Grid);
-            CreateMap.CreateObstacle(10);
+            CreateMap.CreateObstacle(10, 2);
         }
     }
 }
