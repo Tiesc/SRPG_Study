@@ -82,6 +82,7 @@ namespace ELGame
             }
 
             //todo   编写这里编写计算障碍物的间距数量
+            
         }
 
         public Vector3 CalcGridPos(int idxR, int idxC)
