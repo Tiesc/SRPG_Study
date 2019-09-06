@@ -10,8 +10,8 @@ namespace ELGame
     public class CreateGrid : ELBehaviour
     {
         private GameObject _gameObject;
-        private float outerRadius = 1.63f;
-        private float innerRadius = 1.41f;
+        private float outerRadius = 16.3f;
+        private float innerRadius = 14.1f;
 
         public void Create(List<Vector3> _listT, List<Vector3> _listObs, GameObject gameObject)
         {

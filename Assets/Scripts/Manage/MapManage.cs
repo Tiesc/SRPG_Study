@@ -4,8 +4,11 @@ namespace ELGame
 {
     public class MapManage : ELBehaviour
     {
-        private int _Row = 10;
-        private int _Column = 10;
+        private static int _Row = 15;
+        private static int _Column = 10;
+        
+        public int Row { get; } = _Row;
+        public int Column { get; } = _Column;
 
         public void CreateMap(GameObject gameObject)
         {
@@ -13,6 +16,11 @@ namespace ELGame
             CreateMap.CreateData(_Row, _Column);
             CreateMap.CreateObstacleData(10, 2);
             CreateMap.drawMap(gameObject);
+        }
+
+        public int getMapSize()
+        {
+            return _Row * _Column;
         }
     }
 }

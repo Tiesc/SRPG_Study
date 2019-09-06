@@ -32,7 +32,7 @@ namespace ELGame
 
             for (int i = 0, lenI = q; i < q; i++)
             {
-                for (int j = 0, lenJ = s; j < q; j++)
+                for (int j = 0, lenJ = s; j < s; j++)
                 {
                     Vector3 vector = new Vector3(i, j, 0);
                     _Tile.Add(vector);

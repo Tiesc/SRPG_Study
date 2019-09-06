@@ -15,10 +15,14 @@ namespace ELGame
             GameObject MapObject = GameObject.Find("MapObject");
             GameObject BattleObject = GameObject.Find("BattleObject");
             GameObject MainCamera = GameObject.Find("Main Camera");
-            Vector3 initPos = new Vector3(0, 0, -10);
-            MainCamera.transform.position = initPos;
+
             MapManage Map = MapObject.AddComponent<MapManage>();
             Map.CreateMap(Grid);
+
+            Vector3 initPos = new Vector3((float) (Map.Row * 15.5 / 2.0), (float) (Map.Column * 14 / 2.0), -100);
+            MainCamera.transform.position = initPos;
+            Quaternion initRot = new Quaternion(0, 0, 0, 0);
+            MainCamera.transform.rotation = initRot;
 
             //地图对象节点
             _MapObject = MapObject;
