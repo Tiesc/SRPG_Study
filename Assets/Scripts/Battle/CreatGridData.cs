@@ -1,5 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,95 +10,95 @@ namespace ELGame
 {
     public class CreatGridData : ELBehaviour
     {
-        private Color Color;
-        private float outerRadius = 1.63f;
-        private float innerRadius = 1.41f;
-        public int _Row;
-        public int _Colum;
-        public Vector3[] _Obstruct;
-        private GameObject gameObject;
+        public int _AxleQ, _AxleS, _AxleR;
+        public List<Vector3> _Tile = new List<Vector3>();
+        public List<Vector3> _TilePos = new List<Vector3>();
+        public List<Vector3> _Obstruct = new List<Vector3>();
+        CreateGrid Grid = new CreateGrid();
 
         /*
-         * @function 创建地图
+         * @function 创建地图中的点
          */
-        public void CreateData(int row, int colum, GameObject objGame)
+        public void CreateData(int q, int s)
         {
-            if (!(typeof(int) == row.GetType() && typeof(int) == colum.GetType()))
+            if (!(typeof(int) == q.GetType() && typeof(int) == s.GetType()))
             {
                 return;
             }
 
-            GameObject MainCamera = GameObject.Find("Main Camera");
-            Vector3 initPos = new Vector3(row * outerRadius / 2, colum * innerRadius / 2, -10);
-            MainCamera.transform.position = initPos;
+            _AxleQ = q;
+            _AxleS = s;
+            _AxleR = -q - s;
 
-            _Row = row;
-            _Colum = colum;
-            gameObject = objGame;
-            CalcGridConter(row, colum);
-        }
-
-        public void CalcGridConter(int idxR, int idxC)
-        {
-            Vector3 vector = new Vector3();
-            for (int i = 0; i < idxR; i++)
+            for (int i = 0, lenI = q; i < q; i++)
             {
-                for (int j = 0; j < idxC; j++)
+                for (int j = 0, lenJ = s; j < q; j++)
                 {
-                    vector.x = (i * outerRadius);
-                    vector.y = (j * innerRadius);
-                    vector.z = 0;
-                    if (j % 2 != 0)
-                    {
-                        vector.x = (i * outerRadius) + outerRadius * 0.5f;
-                    }
-
-                    Vector3 Pos = new Vector3(i, j, 0 - i - j);
-                    CreateGrid Grid = new CreateGrid();
-                    Grid.Create(vector, "1", gameObject, Pos);
+                    Vector3 vector = new Vector3(i, j, 0);
+                    _Tile.Add(vector);
                 }
             }
         }
 
         /*
-         * @function 创建地图中的障碍物
+         * @function 创建地图中的障碍物数据
          */
-        public void CreateObstacle(int num, int space)
+        public void CreateObstacleData(int num, int space)
         {
-            int numObstacle = 0;
-            numObstacle = (int) (num / 100.0 * (_Row * _Colum));
-            Vector3[] _Obstruct = new Vector3[numObstacle];
-            for (int i = 0, lenI = numObstacle; i < lenI; i++)
+            List<int> obslist = new List<int>();
+            for (int i = 0, lenI = num; i < num;)
             {
-                int posX = Random.Range(0, _Row);
-                int posY = Random.Range(0, _Colum);
-                Vector3 tmpPos = new Vector3(posX, posY, -posX - posY);
-                //todo  编写创建一个Vector3的模版类,这样才能查找对比数组中是否存在Vector3
-//                    if(_Obstruct.IndexOf(tmpPos))
-                _Obstruct[i] = tmpPos;
-//                Debug.Log("这是啥玩也！！！" + tmpPos);
+                int _reIdx = Random.Range(0, _Tile.Count());
+                if (!ELHelpTool.isInList(obslist, _reIdx))
+                {
+                    obslist.Add(_reIdx);
+                    i++;
+                }
             }
 
-            foreach (Vector3 pos in _Obstruct)
+            foreach (Vector3 vector in _Tile)
             {
-                Debug.Log("这个数组中都是写什么？？？:::" + pos);
+                foreach (int i in obslist)
+                {
+                    if (_Tile[i] == vector)
+                    {
+                        _Obstruct.Add(vector);
+                    }
+                }
             }
-
-            //todo   编写这里编写计算障碍物的间距数量
-            
         }
 
-        public Vector3 CalcGridPos(int idxR, int idxC)
-        {
-            Vector3 tmp = new Vector3(0, 0, 0);
 
-            return tmp;
+        public void drawMap(GameObject gameObject)
+        {
+            Grid.Create(_Tile, _Obstruct, gameObject);
+//            Grid.InsetOther(_Tile, _Obstruct, gameObject);
         }
 
         public bool isOkToPush(Vector3 posA, Vector3 posB, int obs)
         {
             return posA != posB && Math.Abs(posA.x - posB.x) <= obs && Math.Abs(posA.y - posB.y) <= obs &&
                    Math.Abs(posA.z - posB.z) <= obs;
+        }
+
+        public void CalcGridConterByCube(int q, int s, int r)
+        {
+            //使用立方体坐标生成地图数据
+        }
+
+        public void CalcGridConterByDoubled(int q, int s, int r)
+        {
+            //使用翻倍坐标生成地图数据
+        }
+
+        public void CalcGridConterByAxial(int idxR, int idxC)
+        {
+            //使用轴坐标生成地图数据
+        }
+
+        public void CalcGridConterByOffset(int idxR, int idxC)
+        {
+            //使用偏移坐标生成地图数据
         }
     }
 }

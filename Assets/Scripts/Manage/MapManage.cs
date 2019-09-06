@@ -4,11 +4,15 @@ namespace ELGame
 {
     public class MapManage : ELBehaviour
     {
-        public void CreateMap(GameObject Grid)
+        private int _Row = 10;
+        private int _Column = 10;
+
+        public void CreateMap(GameObject gameObject)
         {
             CreatGridData CreateMap = new CreatGridData();
-            CreateMap.CreateData(10, 10, Grid);
-            CreateMap.CreateObstacle(10, 2);
+            CreateMap.CreateData(_Row, _Column);
+            CreateMap.CreateObstacleData(10, 2);
+            CreateMap.drawMap(gameObject);
         }
     }
 }

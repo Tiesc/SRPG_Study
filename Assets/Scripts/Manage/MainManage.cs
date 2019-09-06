@@ -14,6 +14,9 @@ namespace ELGame
         {
             GameObject MapObject = GameObject.Find("MapObject");
             GameObject BattleObject = GameObject.Find("BattleObject");
+            GameObject MainCamera = GameObject.Find("Main Camera");
+            Vector3 initPos = new Vector3(0, 0, -10);
+            MainCamera.transform.position = initPos;
             MapManage Map = MapObject.AddComponent<MapManage>();
             Map.CreateMap(Grid);
 

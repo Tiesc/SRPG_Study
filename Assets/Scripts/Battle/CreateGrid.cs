@@ -1,27 +1,61 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace ELGame
 {
     public class CreateGrid : ELBehaviour
     {
-//        CreatGridData GridData = new CreatGridData();
-//        public GameObject Grid;
+        private GameObject _gameObject;
+        private float outerRadius = 1.63f;
+        private float innerRadius = 1.41f;
 
-        public void Create(Vector3 vector, string state, GameObject gameObject, Vector3 vectorPos)
+        public void Create(List<Vector3> _listT, List<Vector3> _listObs, GameObject gameObject)
         {
-            GameObject Grid = Object.Instantiate(gameObject, vector, Quaternion.identity);
-            GameObject MapObject = GameObject.Find("MapObject");
-            Grid.transform.parent = MapObject.transform;
-            Grid.name = ELHelpTool.RemoveNameClone(Grid.name);
-            GameObject GridPosData = Grid.transform.Find("GridInfo").gameObject;
-            GridPosData.GetComponent<TextMesh>().text = ELHelpTool.SetGridPos(vectorPos);
-            Color ObGrid = SetColor(state);
-            GameObject GridColorData = Grid.transform.Find("Tile").gameObject;
-            GridColorData.GetComponent<SpriteRenderer>().color = ObGrid;
-            //todo   编写设置不同格子的颜色;
+            _gameObject = gameObject;
+            foreach (Vector3 vector in _listT)
+            {
+                GameObject Grid;
+                Grid = Instantiate(gameObject, CalcTilePos(vector), Quaternion.identity);
+                GameObject MapObject = GameObject.Find("MapObject");
+                Grid.transform.parent = MapObject.transform;
+                Grid.name = ELHelpTool.RemoveNameClone(Grid.name);
+                GameObject GridPosData = Grid.transform.Find("GridInfo").gameObject;
+                GridPosData.GetComponent<TextMesh>().text = ELHelpTool.SetGridPos(vector);
+                Color ObGrid = SetColor("1");
+                foreach (Vector3 vectorObs in _listObs)
+                {
+                    if (vector == vectorObs)
+                    {
+                        ObGrid = SetColor("2");
+                    }
+                }
+
+                GameObject GridColorData = Grid.transform.Find("Tile").gameObject;
+                GridColorData.GetComponent<SpriteRenderer>().color = ObGrid;
+            }
+        }
+
+        public void InsetOther(Vector3 vector, string state, GameObject gameObject, Vector3 vectorPos)
+        {
+            //todo 编写替换选中位置的颜色
+        }
+
+        public Vector3 CalcTilePos(Vector3 vector)
+        {
+            Vector3 vecPos = new Vector3();
+            vecPos.x = vector.x * outerRadius;
+            vecPos.y = vector.y * innerRadius;
+            vecPos.z = vector.z;
+            if (vector.y % 2 != 0)
+            {
+                vecPos.x = vector.x * outerRadius + outerRadius * 0.5f;
+            }
+
+            return vecPos;
         }
 
 
