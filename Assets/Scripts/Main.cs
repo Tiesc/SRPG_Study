@@ -15,6 +15,7 @@ namespace ELGame
         {
             MainManage mainManage = gameObject.AddComponent<MainManage>();
             mainManage.CreatGame(Grid);
+   
         }
     }
 }

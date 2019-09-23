@@ -40,7 +40,12 @@ namespace ELGame
             string TmpPos = "(" + (int) vector3.x + "," + (int) vector3.y + "," + (int) vector3.z + ")";
             return TmpPos;
         }
-        
+
+        public static string ResetName(string name, Vector3 vector)
+        {
+            return name + "[" + vector.x + "_" + vector.y + "_" + vector.z + "]";
+        }
+
         public static bool isInList(List<int> list, int element)
         {
             foreach (int tmpE in list)
@@ -50,8 +55,8 @@ namespace ELGame
                     return true;
                 }
             }
+
             return false;
         }
-   
     }
 }

@@ -17,7 +17,9 @@ namespace ELGame
             GameObject MainCamera = GameObject.Find("Main Camera");
 
             MapManage Map = MapObject.AddComponent<MapManage>();
+            EventManage Event = gameObject.AddComponent<EventManage>();
             Map.CreateMap(Grid);
+
 
             Vector3 initPos = new Vector3((float) (Map.Row * 15.5 / 2.0), (float) (Map.Column * 14 / 2.0), -100);
             MainCamera.transform.position = initPos;
@@ -29,6 +31,7 @@ namespace ELGame
             //战斗对象节点
             _BattleObject = BattleObject;
         }
+      
 
         private void OnGUI()
         {

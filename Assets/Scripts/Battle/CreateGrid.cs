@@ -23,6 +23,7 @@ namespace ELGame
                 GameObject MapObject = GameObject.Find("MapObject");
                 Grid.transform.parent = MapObject.transform;
                 Grid.name = ELHelpTool.RemoveNameClone(Grid.name);
+                Grid.name = ELHelpTool.ResetName(Grid.name, vector);
                 GameObject GridPosData = Grid.transform.Find("GridInfo").gameObject;
                 GridPosData.GetComponent<TextMesh>().text = ELHelpTool.SetGridPos(vector);
                 Color ObGrid = SetColor("1");
@@ -58,7 +59,6 @@ namespace ELGame
             return vecPos;
         }
 
-
         public Color SetColor(string state)
         {
             //todo 编写不同类型格子返回的颜色
@@ -70,6 +70,9 @@ namespace ELGame
                     break;
                 case "2":
                     color = Color.gray;
+                    break;
+                case "3":
+                    color = Color.red;
                     break;
             }
 
