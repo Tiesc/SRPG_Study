@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace ELGame
 {
-    public class CreateGrid : ELBehaviour
+    public class CreateGrid : EBaseBehaviour
     {
         private GameObject _gameObject;
         private float outerRadius = 16.3f;
@@ -22,10 +22,10 @@ namespace ELGame
                 Grid = Instantiate(gameObject, CalcTilePos(vector), Quaternion.identity);
                 GameObject MapObject = GameObject.Find("MapObject");
                 Grid.transform.parent = MapObject.transform;
-                Grid.name = ELHelpTool.RemoveNameClone(Grid.name);
-                Grid.name = ELHelpTool.ResetName(Grid.name, vector);
+                Grid.name = UtilityHelpTool.RemoveNameClone(Grid.name);
+                Grid.name = UtilityHelpTool.ResetName(Grid.name, vector);
                 GameObject GridPosData = Grid.transform.Find("GridInfo").gameObject;
-                GridPosData.GetComponent<TextMesh>().text = ELHelpTool.SetGridPos(vector);
+                GridPosData.GetComponent<TextMesh>().text = UtilityHelpTool.SetGridPos(vector);
                 Color ObGrid = SetColor("1");
                 foreach (Vector3 vectorObs in _listObs)
                 {

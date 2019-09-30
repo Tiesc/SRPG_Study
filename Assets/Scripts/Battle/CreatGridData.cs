@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace ELGame
 {
-    public class CreatGridData : ELBehaviour
+    public class CreatGridData : EBaseBehaviour
     {
         public int _AxleQ, _AxleS, _AxleR;
         public List<Vector3> _Tile = new List<Vector3>();
@@ -49,7 +49,7 @@ namespace ELGame
             for (int i = 0, lenI = num; i < num;)
             {
                 int _reIdx = Random.Range(0, _Tile.Count());
-                if (!ELHelpTool.isInList(obslist, _reIdx))
+                if (!UtilityHelpTool.isInList(obslist, _reIdx))
                 {
                     obslist.Add(_reIdx);
                     i++;

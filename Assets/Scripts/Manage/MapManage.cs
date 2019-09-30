@@ -2,13 +2,17 @@ using UnityEngine;
 
 namespace ELGame
 {
-    public class MapManage : ELBehaviour
+    public class MapManage : BaseManager<MapManage>
     {
         private static int _Row = 15;
         private static int _Column = 10;
-        
+
         public int Row { get; } = _Row;
         public int Column { get; } = _Column;
+
+        public override void InitManager()
+        {
+        }
 
         public void CreateMap(GameObject gameObject)
         {

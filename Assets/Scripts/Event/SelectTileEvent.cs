@@ -4,6 +4,9 @@ namespace ELGame
 {
     public class SelectTileEvent : MonoBehaviourSingleton<SelectTileEvent>
     {
+        private GameObject selectTile;
+        private Color selectColor;
+
         public void HandleInput()
         {
             if (Input.GetMouseButtonDown(0))
@@ -12,7 +15,22 @@ namespace ELGame
                 if (hit.collider != null)
                 {
                     GameObject Tile = hit.transform.Find("Tile").gameObject;
-                    Tile.transform.GetComponent<SpriteRenderer>().color = Color.red;
+                    if (selectTile)
+                    {
+                        if (selectTile.transform != Tile.transform)
+                        {
+                            selectTile.transform.GetComponent<SpriteRenderer>().color = selectColor;
+                            selectColor = Tile.transform.GetComponent<SpriteRenderer>().color;
+                            Tile.transform.GetComponent<SpriteRenderer>().color = Color.red;
+                            selectTile = Tile;
+                        }
+                    }
+                    else
+                    {
+                        selectTile = Tile;
+                        selectColor = Tile.transform.GetComponent<SpriteRenderer>().color;
+                        Tile.transform.GetComponent<SpriteRenderer>().color = Color.red;
+                    }
                 }
             }
         }

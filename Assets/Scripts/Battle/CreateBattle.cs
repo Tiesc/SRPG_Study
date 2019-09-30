@@ -2,7 +2,7 @@
 
 namespace ELGame
 {
-    public class BattlePlance : ELBehaviour
+    public class BattlePlance : EBaseBehaviour
     {
         public int Width { get; } = 200;
 

@@ -27,7 +27,7 @@ namespace ELGame
 
     //普通泛型单例
     public class NormalSingleton<T>
-        where T : IELBase, new()
+        where T : IGameBase, new()
 
     {
         private static T instance;
@@ -47,14 +47,22 @@ namespace ELGame
     }
 
     //继承MonoBehaviour的泛型单例
-    public class MonoBehaviourSingleton<T> : ELBehaviour
+    public class MonoBehaviourSingleton<T> : EBaseBehaviour
         where T : MonoBehaviourSingleton<T>
     {
         private static T instance;
 
         public static T Instance
         {
-            get { return instance; }
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<T>();
+                }
+
+                return instance;
+            }
         }
 
         public void Awake()
