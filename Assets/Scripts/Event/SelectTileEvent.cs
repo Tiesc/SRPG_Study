@@ -7,10 +7,11 @@ namespace ELGame
         private GameObject selectTile;
         private Color selectColor;
 
-        public void HandleInput()
+        public void HandleInput(ELGame.IGameEvent msg)
         {
             if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("这是什么情况？？？？？？我也是醉了！！！！");
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
                 if (hit.collider != null)
                 {

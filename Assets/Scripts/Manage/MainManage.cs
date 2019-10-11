@@ -10,7 +10,7 @@ namespace ELGame
         private GameObject _scriptsObject;
         private GameObject _cameraObject;
         private GameObject _mapObject;
-        private GameObject _battleObject;
+//        private GameObject _battleObject;
 
 //        private GameObject _mainCamera;
 
@@ -20,7 +20,7 @@ namespace ELGame
 
             GameObject mapObject = GameObject.Find("MapObject");
             GameObject scriptsObject = GameObject.Find("ScriptsObject");
-            GameObject battleObject = GameObject.Find("BattleObject");
+//            GameObject battleObject = GameObject.Find("BattleObject");
             GameObject cameraObject = GameObject.Find("CameraObject");
 //            GameObject mainCamera = GameObject.Find("Main Camera");
 
@@ -29,7 +29,8 @@ namespace ELGame
             scriptsObject.AddComponent<SelectTileEvent>();
 
             EventManage.Instance.InitManager();
-            MapManage.Instance.InitManager();
+            MapManage.Instance.InitManager(mapObject);
+
 
             //脚本对象节点
             _scriptsObject = scriptsObject;
@@ -38,19 +39,31 @@ namespace ELGame
             //地图对象节点
             _mapObject = mapObject;
             //战斗对象节点
-            _battleObject = battleObject;
+//            _battleObject = battleObject;
         }
 
         public void CreatGame(GameObject Grid)
         {
-            EventManage.Instance.AddEvent(SelectTileEvent.Instance.HandleInput);
-            MapManage.Instance.CreateMap(Grid);
+            //todo 先创建好游戏数据之后将数据放到对应的Manger对象上
+            EventManage.Instance.Register("test", "listener", SelectTileEvent.Instance.HandleInput);
+            if (MapManage.Instance.CreateMapData())
+                MapManage.Instance.CreateMapSence(Grid);
 
             Vector3 initPos = new Vector3((float) (MapManage.Instance.Row * 15.5 / 2.0),
                 (float) (MapManage.Instance.Column * 14 / 2.0), -100);
             _cameraObject.transform.position = initPos;
             Quaternion initRot = new Quaternion(0, 0, 0, 0);
             _cameraObject.transform.rotation = initRot;
+        }
+
+        public void Update()
+        {
+            ELGame.IGameEvent Idonknow = null;
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("这东西有点狗啊！！！我没搞明白就可以用了？？？");
+                EventManage.Instance.Run("test", Idonknow);
+            }
         }
     }
 }
